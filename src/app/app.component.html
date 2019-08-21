@@ -1,21 +1,57 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a class="clickable" (click)="onSelectedProducts()">Home</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Products
+          <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a class="clickable" (click)="onProductsPromo()">Promotion</a></li>
+          <li><a class="clickable" (click)="onProductsDispo()">Disponibles</a></li>
+        </ul>
+      </li>
+      <li><a routerLink="/caddy">Caddy</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+    <ul *ngIf="!this.authService.isAuthenticated()" class=" nav navbar-nav pull-right">
+      <li>
+        <a (click)="onLogin()"class="btn">
+          <span class="glyphicon glyphicon-log-in"></span>
+        </a>
+      </li>
+    </ul>
+    <ul *ngIf="this.authService.isAuthenticated()" class=" nav navbar-nav pull-right">
+      <li>
+        <a (click)="onLogout()"class="btn">
+          <span class="glyphicon glyphicon-log-out"></span>
+        </a>
+      </li>
+    </ul>
+    <ul class=" nav navbar-nav pull-right">
+      <li>
+        <a routerLink="/caddy">
+          <span class="badge">{{caddyService.currentCaddyName}} :
+            {{caddyService.getSize()}}</span>
+          <img class="img-circle img-thumbnail img-rounded" src="assets/images/caddy.png">
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="row">
+  <div class="col-md-3">
+    <ul class="list-group" *ngIf="categories">
+      <li [ngClass]="currentCategorie==c?'active':''"  (click)="getProductsByCat(c)" class="list-group-item clickable" *ngFor="let c of categories._embedded.categories">
+        {{c.name}}
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9">
+    <router-outlet>
 
-<router-outlet></router-outlet>
+    </router-outlet>
+  </div>
+</div>
